@@ -54,6 +54,9 @@ export default class EasySocket extends Emitter {
         return this;
     }
     connect(url) {
+        if (this.connected) {
+            return this;
+        }
         this.socket = new WebSocket(url, 'echo-protocol');
 
         this.openFn = compose(this.openMiddleware);
