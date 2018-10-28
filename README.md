@@ -8,7 +8,11 @@ npm install easy-socket-browser --save
 ```js
 import EasySocket from 'easy-socket-browser';
 
-new EasySocket("im")
+new EasySocket({
+    name: 'im',
+    autoReconnect: true,
+    pingMsg: '{"type":"event","event":"ping","args":"ping"}'
+  })
   .openUse((context, next) => {
     console.log("open");
     next();
@@ -23,6 +27,9 @@ new EasySocket("im")
     if (context.res.type === 'event') {
       context.client.emit(context.res.event, context.res.args, true);
     }
+    next();
+  }).reconnectUse((context, next) => {
+    console.log('reconnect...');
     next();
   }).remoteEmitUse((context, next) => {
     let client = context.client;
@@ -47,11 +54,33 @@ new EasySocket("im")
       console.log(data);
   });
 ```
+**config**:
+
+| property | description | require | default |
+| ------ | ------ | ------ | ------ |
+| name | instance's name |true| - |
+| autoReconnect | heartCheck and autoReconnect |false|false|
+| url | url |false|-|
+| reconnectTimeout | reconnectTimeout |false|10000|
+| pingTimeout | pingTimeout |false|15000|
+| pongTimeout | pongTimeout |false|3000|
+| pingMsg | pingMsg |false|'ping'|
+
+## close
+
+```js
+let client=EasySocket.clients.get(im);
+client&&client.close();
+```
 
 ## open Middleware
 
 ```js
-const easySocket = new EasySocket("im");
+const easySocket = new EasySocket({
+    name: 'im',
+    autoReconnect: true,
+    pingMsg: '{"type":"event","event":"ping","args":"ping"}'
+  });
 easySocket
     .openUse((context, next) => {
     console.log("open");
@@ -69,7 +98,11 @@ easySocket
 ## close Middleware
 
 ```js
-const easySocket = new EasySocket("im");
+const easySocket = new EasySocket({
+    name: 'im',
+    autoReconnect: true,
+    pingMsg: '{"type":"event","event":"ping","args":"ping"}'
+  });
 easySocket
     .closeUse((context, next) => {
     EasySocket.clients.delete(this.name);
@@ -89,7 +122,11 @@ easySocket
 
 ## error Middleware
 ```js
-const easySocket = new EasySocket("im");
+const easySocket = new EasySocket({
+    name: 'im',
+    autoReconnect: true,
+    pingMsg: '{"type":"event","event":"ping","args":"ping"}'
+  });
 easySocket
     .errorUse((context, next) => {
     console.log("error");
@@ -108,7 +145,11 @@ easySocket
 
 ## message Middleware
 ```js
-const easySocket = new EasySocket("im");
+const easySocket = new EasySocket({
+    name: 'im',
+    autoReconnect: true,
+    pingMsg: '{"type":"event","event":"ping","args":"ping"}'
+  });
 easySocket
     .messageUse((context, next) => {
     if (context.res.type === 'event') {
@@ -129,7 +170,11 @@ easySocket
 
 ## remoteEmit Middleware
 ```js
-const easySocket = new EasySocket("im");
+const easySocket = new EasySocket({
+    name: 'im',
+    autoReconnect: true,
+    pingMsg: '{"type":"event","event":"ping","args":"ping"}'
+  });
 easySocket
     .remoteEmitUse((context, next) => {
     let client = context.client;
@@ -152,6 +197,28 @@ easySocket
 | ------ | ------ | ------ |
 | client | instance of EasySocket ||
 | event | event and args ||
+
+## reconnect Middleware
+```js
+const easySocket = new EasySocket({
+    name: 'im',
+    autoReconnect: true,
+    pingMsg: '{"type":"event","event":"ping","args":"ping"}'
+  });
+easySocket
+    .reconnectUse((context, next) => {
+      console.log('reconnect...');
+      next();
+    }
+  })
+```
+**context properties**:
+
+| property | description |  |
+| ------ | ------ | ------ |
+| client | instance of EasySocket ||
+
+
 
 
 ## example and online demo
