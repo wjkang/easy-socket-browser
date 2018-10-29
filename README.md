@@ -227,6 +227,8 @@ easySocket
 
 [online chat demo](http://jaycewu.coding.me/easy-socket-chat/#/)
 
+use heartCheck code from [websocket-heartbeat-js](https://github.com/zimv/websocket-heartbeat-js)
+
 
 
 
