@@ -5,17 +5,29 @@
   "homepage": "https://github.com/wjkang/easy-socket-browser",
   "bugs": "https://github.com/wjkang/easy-socket-browser/issues",
   "repository": "wjkang/easy-socket-browser",
-  "main": "./lib/index.js",
+  "main": "./lib/easy-socket.common.js",
+  "module": "./lib/easy-socket.esm.js",
+  "unpkg": "./lib/easy-socket.min.js",
   "scripts": {
-    "build": "node node_modules/babel-cli/bin/babel.js src --out-dir lib",
-    "prepublish": "node node_modules/babel-cli/bin/babel.js src --out-dir lib"
+    "clean": "rimraf ./lib",
+    "build:self": "rollup -c config/rollup.config.js",
+    "build:esm": "rollup -c config/rollup.config.esm.js",
+    "build:aio": "rollup -c config/rollup.config.aio.js && rollup -c config/rollup.config.aio.min.js",
+    "build": "npm run clean && npm run build:self && npm run build:esm &&  npm run build:aio",
+    "prepublish": "npm run build"
   },
   "author": "ruoxie <ruoxieme@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1"
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "rimraf": "2.6.2",
+    "rollup": "0.66.0",
+    "rollup-plugin-babel": "3.0.3",
+    "rollup-plugin-commonjs": "8.3.0",
+    "rollup-plugin-node-resolve": "3.0.3",
+    "rollup-plugin-uglify": "^6.0.0"
   }
 }
