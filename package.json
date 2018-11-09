@@ -1,6 +1,6 @@
 {
   "name": "easy-socket-browser",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "websocket client for browser,easy to use,run with middleware",
   "homepage": "https://github.com/wjkang/easy-socket-browser",
   "bugs": "https://github.com/wjkang/easy-socket-browser/issues",
